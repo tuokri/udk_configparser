@@ -1,7 +1,7 @@
 import configparser
 import os
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 
 class MultiValueConfigDict(dict):
@@ -15,16 +15,22 @@ class MultiValueConfigDict(dict):
 
 class UDKConfigParser(configparser.ConfigParser):
 
-    def __init__(self, *args, strict=False,
+    def __init__(self,
+                 *args,
+                 strict=False,
                  dict_type=MultiValueConfigDict,
-                 converters=None, **kwargs):
+                 converters=None,
+                 comment_prefixes="@",
+                 **kwargs):
+
         if converters is None:
             converters = {
                 "list": UDKConfigParser.getlist,
             }
         super().__init__(
             *args, strict=strict, dict_type=dict_type,
-            converters=converters, **kwargs,
+            converters=converters, comment_prefixes=comment_prefixes,
+            **kwargs,
         )
         self.optionxform = str
 

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="udk_configparser",
-    version="1.0.1",
+    version="1.0.2",
     packages=setuptools.find_packages(),
     url="https://github.com/tuokri/udk_configparser",
     author="tuokri",
