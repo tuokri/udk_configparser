@@ -131,12 +131,5 @@ dmypy.json
 # PyCharm
 .idea/
 
-# Image resources
-*.ico
-*.png
-
-# Frozen executables
-*.exe
-
-# Qt generated resource file
-resources.py
+# Config files
+*.ini
