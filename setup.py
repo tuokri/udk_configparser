@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="rs2wapy",
+    name="udk_configparser",
     version="1.0.0",
     packages=setuptools.find_packages(),
     url="https://github.com/tuokri/udk_configparser",
