@@ -1,7 +1,4 @@
 import configparser
-import os
-
-__version__ = "1.0.2"
 
 
 class MultiValueConfigDict(dict):
@@ -20,7 +17,8 @@ class UDKConfigParser(configparser.ConfigParser):
                  strict=False,
                  dict_type=MultiValueConfigDict,
                  converters=None,
-                 comment_prefixes="@",
+                 comment_prefixes=";",
+                 allow_no_value=True,
                  **kwargs):
 
         if converters is None:
@@ -28,15 +26,20 @@ class UDKConfigParser(configparser.ConfigParser):
                 "list": UDKConfigParser.getlist,
             }
         super().__init__(
-            *args, strict=strict, dict_type=dict_type,
-            converters=converters, comment_prefixes=comment_prefixes,
+            *args,
+            strict=strict,
+            dict_type=dict_type,
+            converters=converters,
+            comment_prefixes=comment_prefixes,
+            allow_no_value=allow_no_value,
             **kwargs,
         )
         self.optionxform = str
 
     @staticmethod
     def getlist(value):
-        return value.split(os.sep)
+        value = value.replace("\r", "")
+        return value.split("\n")
 
     def _write_section(self, fp, section_name, section_items, delimiter):
         fp.write("[{}]\n".format(section_name))
@@ -44,7 +47,7 @@ class UDKConfigParser(configparser.ConfigParser):
             value = self._interpolation.before_write(
                 self, section_name, key, value)
             if value is not None or not self._allow_no_value:
-                if str(value).count("\n") > 1:
+                if str(value).count("\n") >= 1:
                     # Multi value case.
                     split = str(value).split("\n")
                     first = split[0]
@@ -60,6 +63,7 @@ class UDKConfigParser(configparser.ConfigParser):
                     ).join(rest)
                     value = first + rest
                 else:
+                    # TODO: what the heck is this?
                     value = delimiter + str(value).replace("\n", "\n\t")
             else:
                 value = ""
