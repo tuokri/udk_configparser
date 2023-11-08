@@ -133,3 +133,6 @@ dmypy.json
 
 # Config files
 *.ini
+
+# Dynamic versioning
+udk_configparser/_version.py
